@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<meta charset="UTF-8"> <!-- Définit l'encodage en UTF-8 pour supporter les caractères spéciaux -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Détail du Réalisateur</title>
+  <style>
+    /* Style de la page */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #E8F5E9; /* Vert pastel clair pour l'arrière-plan */
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    /* Conteneur principal */
+    .container {
+        width: 100%;
+        max-width: 800px;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère pour effet de profondeur */
+    }
+
+    /* Style pour le titre principal */
+    h1 {
+        text-align: center;
+        color: #66BB6A; /* Vert vif */
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    /* Sous-titres */
+    h2 {
+        color: #4CAF50; /* Vert foncé */
+        font-size: 20px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    /* Paragraphe pour la biographie */
+    p {
+        color: #555; /* Gris pour le texte */
+        font-size: 16px;
+    }
+
+    /* Style de la table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd; /* Ligne de séparation */
+    }
+
+    th {
+        background-color: #81C784; /* Vert pour l'en-tête */
+        color: white;
+    }
+
+    tr:hover {
+        background-color: #DCEDC8; /* Changement de couleur au survol */
+    }
+
+    /* Message si la liste des films est vide */
+    .empty-message {
+        text-align: center;
+        color: #888; /* Gris clair */
+        font-style: italic;
+        margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <!-- Titre avec le nom du réalisateur -->
+  <h1 th:text="${realisateur.nom}">Nom du Réalisateur</h1>
+
+  <!-- Section de la biographie -->
+  <h2>Biographie</h2>
+  <p th:text="${realisateur.biographie}">Biographie du réalisateur...</p>
+
+  <!-- Section des films réalisés -->
+  <h2>Films Réalisés</h2>
+
+  <!-- Condition pour afficher un message si aucun film n'est disponible -->
+  <div th:if="${#lists.isEmpty(films)}" class="empty-message">
+    Aucun film réalisé pour le moment.
+  </div>
+
+  <!-- Table des films réalisés si la liste des films n'est pas vide -->
+  <table th:if="${!#lists.isEmpty(films)}">
+    <thead>
+    <tr>
+      <th>Titre</th>
+      <th>Genre</th>
+      <th>Année de sortie</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Boucle Thymeleaf pour afficher chaque film dans une ligne -->
+    <tr th:each="film : ${films}">
+      <td th:text="${film.titre}">Titre</td> <!-- Titre du film -->
+      <td th:text="${film.genre}">Genre</td> <!-- Genre du film -->
+      <td th:text="${film.anneeSortie}">Année de sortie</td> <!-- Année de sortie du film -->
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
+

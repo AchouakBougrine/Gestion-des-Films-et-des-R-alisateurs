@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<meta charset="UTF-8"> <!-- Définit l'encodage en UTF-8 pour supporter les caractères spéciaux -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Liste des Films</title>
+    <!-- Lien vers la bibliothèque d'icônes Font Awesome pour les icônes dans les boutons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Styles globaux pour le corps de la page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F3E5F5; /* Violet pastel clair pour l'arrière-plan */
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre pour effet de profondeur */
+        }
+        h1 {
+            text-align: center;
+            color: #7E57C2; /* Violet pastel foncé */
+            font-size: 24px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Styles pour la table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        thead th {
+            background-color: #D1C4E9; /* Violet pastel pour les en-têtes */
+            color: #5E35B1; /* Texte violet foncé */
+            text-align: left;
+            font-weight: bold;
+            padding: 12px;
+        }
+        tbody td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {
+            background-color: #EDE7F6; /* Violet pastel clair au survol */
+        }
+
+        /* Styles pour les liens et boutons */
+        a {
+            color: #7E57C2; /* Violet pastel foncé */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .add-button, .print-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 15px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            margin: 10px 5px;
+            font-size: 14px;
+            background-color: #9575CD; /* Couleur violet pastel pour le bouton Ajouter */
+            border: none;
+        }
+        .print-button {
+            background-color: #B39DDB; /* Couleur violet pour le bouton Imprimer */
+        }
+        .add-button:hover, .print-button:hover {
+            background-color: #AB47BC; /* Couleur violet plus foncé au survol */
+        }
+        .add-button i, .print-button i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>Liste des Films</h1>
+
+    <!-- Table des films -->
+    <table>
+        <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Genre</th>
+            <th>Année de sortie</th>
+            <th>Réalisateurs</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Boucle Thymeleaf pour afficher chaque film dans le tableau -->
+        <tr th:each="film : ${films}">
+            <td th:text="${film.titre}">Titre</td> <!-- Titre du film -->
+            <td th:text="${film.genre}">Genre</td> <!-- Genre du film -->
+            <td th:text="${film.anneeSortie}">Année de sortie</td> <!-- Année de sortie -->
+            <td>
+                <!-- Boucle pour afficher les réalisateurs du film, avec des virgules entre les noms -->
+                <span th:each="realisateur, iterStat : ${film.realisateurs}">
+                    <a th:href="@{/realisateurs/{id}(id=${realisateur.id})}" th:text="${realisateur.nom}"></a>
+                    <span th:if="${!iterStat.last}">, </span>
+                </span>
+            </td>
+            <td>
+                <!-- Lien pour voir les détails du film -->
+                <a th:href="@{/films/details/{id}(id=${film.id})}"><i class="fas fa-info-circle"></i> Voir les détails</a> |
+                <!-- Lien pour modifier le film -->
+                <a th:href="@{/films/edit/{id}(id=${film.id})}"><i class="fas fa-edit"></i> Modifier</a> |
+                <!-- Lien pour supprimer le film -->
+                <a th:href="@{/films/delete/{id}(id=${film.id})}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce film ?');">
+                    <i class="fas fa-trash"></i> Supprimer
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Boutons Ajouter un Film et Imprimer la liste -->
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="/films/add" class="add-button">
+            <i class="fas fa-plus-circle"></i> Ajouter un Film
+        </a>
+        <!-- Bouton pour imprimer la liste des films -->
+        <button onclick="window.print()" class="print-button">
+            <i class="fas fa-print"></i> Imprimer la liste
+        </button>
+    </div>
+</div>
+</body>
+</html>

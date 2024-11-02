@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"> <!-- Définit l'encodage UTF-8 pour assurer la compatibilité des caractères spéciaux -->
+  <title>Liste des Réalisateurs</title>
+
+  <!-- Lien vers la bibliothèque Font Awesome pour les icônes dans les boutons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    /* Style global pour la page */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #E0F7FA; /* Bleu pastel clair */
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    /* Conteneur principal */
+    .container {
+        width: 100%;
+        max-width: 800px;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre pour effet de profondeur */
+    }
+
+    /* Style du titre principal */
+    h1 {
+        text-align: center;
+        color: #0288D1; /* Bleu pastel foncé */
+        font-size: 24px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    /* Conteneur pour la recherche */
+    .search-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    .search-container input[type="text"] {
+        width: 70%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-right: 10px;
+        font-size: 16px;
+    }
+    .search-container button {
+        background-color: #4FC3F7; /* Bleu pastel */
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+    }
+    .search-container button:hover {
+        background-color: #039BE5; /* Couleur plus foncée au survol */
+    }
+
+    /* Conteneur des boutons "Impression" et "Ajouter" */
+    .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px; /* Espace entre les boutons */
+        margin-top: 20px;
+    }
+
+    /* Bouton Impression */
+    .print-button {
+        background-color: #81D4FA; /* Bleu pastel moyen */
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 16px;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+    }
+    .print-button:hover {
+        background-color: #4FC3F7; /* Couleur légèrement plus foncée au survol */
+    }
+
+    /* Bouton Ajouter un Réalisateur */
+    .add-button a {
+        color: white;
+        background-color: #4FC3F7; /* Couleur de fond bleu pastel */
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+    }
+    .add-button a:hover {
+        background-color: #039BE5; /* Couleur plus foncée au survol */
+    }
+
+    /* Styles pour la table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+    /* Styles des cellules de la table */
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #B3E5FC; /* Bleu pastel clair */
+        color: white;
+    }
+    tr:hover {
+        background-color: #E1F5FE; /* Changement de couleur au survol */
+    }
+
+    /* Style des liens */
+    a {
+        color: #039BE5; /* Bleu pastel foncé */
+        text-decoration: none;
+        font-weight: bold;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+
+    /* Boutons Modifier et Supprimer */
+    .action-buttons a {
+        color: #039BE5; /* Bleu pastel foncé */
+        text-decoration: none;
+        font-weight: bold;
+        margin-right: 5px;
+    }
+    .action-buttons a:hover {
+        color: #0288D1; /* Couleur plus foncée au survol */
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <h1>Liste des Réalisateurs</h1>
+
+  <!-- Formulaire de recherche -->
+  <div class="search-container">
+    <form th:action="@{/realisateurs/search}" method="get">
+      <input type="text" name="nom" placeholder="Rechercher un réalisateur par nom" required>
+      <button type="submit"><i class="fas fa-search"></i> Rechercher</button>
+    </form>
+  </div>
+
+  <!-- Table des réalisateurs -->
+  <table>
+    <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Biographie</th>
+      <th>Films</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Boucle Thymeleaf pour afficher chaque réalisateur dans une ligne de la table -->
+    <tr th:each="realisateur : ${realisateurs}">
+      <td th:text="${realisateur.nom}">Nom du Réalisateur</td> <!-- Nom du réalisateur -->
+      <td th:text="${realisateur.biographie}">Biographie</td> <!-- Biographie du réalisateur -->
+      <td>
+        <!-- Liste des films réalisés par ce réalisateur -->
+        <ul>
+          <li th:each="film : ${realisateur.films}" th:text="${film.titre}">Titre du Film</li> <!-- Titre de chaque film -->
+        </ul>
+      </td>
+      <td class="action-buttons">
+        <!-- Lien pour modifier et supprimer un réalisateur avec icônes Font Awesome -->
+        <a th:href="@{/realisateurs/edit/{id}(id=${realisateur.id})}"><i class="fas fa-edit"></i> Modifier</a> |
+        <a th:href="@{/realisateurs/delete/{id}(id=${realisateur.id})}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce réalisateur ?');">Supprimer</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <!-- Conteneur pour les boutons Ajouter et Imprimer -->
+  <div class="button-container">
+    <!-- Lien pour ajouter un nouveau réalisateur avec une icône Font Awesome -->
+    <div class="add-button">
+      <a th:href="@{/realisateurs/add}"><i class="fas fa-plus-circle"></i> Ajouter un Réalisateur</a>
+    </div>
+    <!-- Bouton pour imprimer la liste des réalisateurs -->
+    <button onclick="window.print()" class="print-button"><i class="fas fa-print"></i> Imprimer la liste</button>
+  </div>
+</div>
+</body>
+</html>

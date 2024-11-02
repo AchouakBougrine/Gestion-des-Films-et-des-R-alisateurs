@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<meta charset="UTF-8"> <!-- Définit l'encodage en UTF-8 pour supporter les caractères spéciaux -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Modifier un Réalisateur</title>
+    <style>
+        /* Styles globaux pour le corps de la page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F3E5F5; /* Violet pastel clair */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Conteneur principal pour le formulaire */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: #ffffff; /* Fond blanc */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre légère pour effet de profondeur */
+        }
+
+        /* Titre du formulaire */
+        h1 {
+            text-align: center;
+            color: #7E57C2; /* Violet pastel */
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        /* Style des labels pour les champs */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #5C6BC0; /* Bleu pastel */
+            font-weight: bold;
+        }
+
+        /* Champs de texte et zone de texte */
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            background-color: #EDE7F6; /* Violet pastel clair */
+        }
+
+        /* Styles pour les champs de texte au focus */
+        input[type="text"]:focus, textarea:focus {
+            border-color: #B39DDB; /* Bordure violet pastel */
+            outline: none;
+            box-shadow: 0 0 5px rgba(179, 157, 219, 0.5); /* Effet lumineux au focus */
+        }
+
+        /* Style pour les champs de texte validés */
+        input[type="text"]:valid, textarea:valid {
+            background-color: #F3E5F5; /* Violet pastel clair */
+        }
+
+        /* Compteur de caractères */
+        .char-counter {
+            font-size: 0.85em;
+            color: #8E24AA; /* Couleur d'indicateur violet */
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        /* Bouton de soumission */
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #CE93D8; /* Rose pastel */
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        /* Changement de couleur au survol du bouton */
+        button:hover {
+            background-color: #BA68C8; /* Rose pastel foncé */
+        }
+    </style>
+
+    <script>
+        /* Fonction JavaScript pour mettre à jour le compteur de caractères */
+        function updateCharCounter() {
+            const textarea = document.getElementById("biographie");
+            const counter = document.getElementById("char-counter");
+            const maxLength = 500;
+            counter.textContent = `${textarea.value.length}/${maxLength} caractères`; /* Met à jour le texte du compteur */
+        }
+    </script>
+</head>
+
+<body>
+<div class="container">
+    <h1>Modifier le Réalisateur</h1>
+
+    <!-- Formulaire pour modifier les informations du réalisateur -->
+    <form th:action="@{/realisateurs/update/{id}(id=${realisateur.id})}" th:object="${realisateur}" method="post">
+
+        <!-- Champ pour le nom du réalisateur -->
+        <label for="nom">Nom:</label>
+        <input type="text" id="nom" th:field="*{nom}" placeholder="Nom du réalisateur" required maxlength="255"/>
+
+        <!-- Champ pour la biographie avec compteur de caractères -->
+        <label for="biographie">Biographie:</label>
+        <textarea id="biographie" th:field="*{biographie}" placeholder="Biographie du réalisateur" rows="5" required maxlength="500" oninput="updateCharCounter()"></textarea>
+        <div id="char-counter" class="char-counter">0/500 caractères</div> <!-- Indicateur de caractères restants -->
+
+        <!-- Bouton pour enregistrer les modifications -->
+        <button type="submit">Enregistrer les modifications</button>
+    </form>
+</div>
+</body>
+</html>

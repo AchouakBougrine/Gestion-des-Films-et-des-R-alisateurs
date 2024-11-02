@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Détail du Film</title>
+    <style>
+        /* Style général */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #E0F7FA, #A5D6A7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Conteneur principal */
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .container:hover {
+            transform: scale(1.02); /* Léger zoom au survol */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /* Ombre plus intense */
+        }
+
+        /* Titre principal */
+        h1 {
+            font-size: 28px;
+            color: #2E7D32;
+            background: linear-gradient(90deg, #66BB6A, #388E3C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; /* Effet de texte en dégradé */
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Sous-titres */
+        h2 {
+            color: #43A047;
+            font-size: 22px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #66BB6A;
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        /* Paragraphe */
+        p {
+            color: #333;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            padding: 0 15px;
+        }
+
+        /* Liste des réalisateurs */
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+        li {
+            margin: 8px 0;
+            color: #6D4C41; /* Texte brun pour meilleur contraste avec jaune */
+            font-size: 18px;
+            background: #FFF9C4; /* Jaune pastel */
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s, transform 0.2s;
+        }
+        li:hover {
+            background: #FFF59D; /* Jaune pastel plus vif au survol */
+            transform: translateY(-3px); /* Léger déplacement vers le haut au survol */
+        }
+
+        /* Animation de transition */
+        * {
+            transition: all 0.3s ease;
+        }
+
+        /* Ajout d'une animation d'entrée pour le conteneur */
+        .container {
+            animation: fadeInUp 1s ease both;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 th:text="${film.titre}">Titre du Film</h1>
+
+    <h2>Réalisateurs</h2>
+    <ul>
+        <li th:each="realisateur : ${realisateurs}" th:text="${realisateur.nom}">Nom du Réalisateur</li>
+    </ul>
+</div>
+</body>
+</html>

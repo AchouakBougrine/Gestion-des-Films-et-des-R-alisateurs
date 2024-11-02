@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<meta charset="UTF-8"> <!-- Définit l'encodage en UTF-8 pour supporter les caractères spéciaux -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Accueil</title>
+  <!-- Lien vers la police de Google Fonts pour un style élégant -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Style général */
+    body {
+        font-family: 'Poppins', sans-serif; /* Utilise la police Poppins */
+        background-color: #FFF8E1; /* Fond en orange pastel très clair */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    /* Conteneur principal avec effet de profondeur */
+    .container {
+        max-width: 650px;
+        padding: 30px;
+        background: linear-gradient(145deg, #FFFFFF, #FFE0B2); /* Dégradé de blanc à pêche pastel */
+        border-radius: 12px;
+        box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.2), -6px -6px 10px #FFE0B2; /* Effet de profondeur avec ombre double */
+        text-align: center; /* Centre le texte */
+    }
+
+    /* Titre principal avec effet de couleur dégradé */
+    h1 {
+        color: #FF7043; /* Orange vif */
+        font-size: 28px;
+        margin-bottom: 18px;
+        background: -webkit-linear-gradient(#FF7043, #D84315); /* Dégradé d'orange vif à foncé */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; /* Crée un effet de texte en dégradé */
+    }
+
+    /* Texte de description */
+    p {
+        color: #A1887F; /* Brun pastel doux */
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    /* Style de la liste sans puces */
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        margin: 15px 0;
+    }
+
+    /* Style pour les liens de navigation */
+    a {
+        color: #FFF3E0; /* Presque blanc pour contraste */
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 18px;
+        padding: 12px 24px;
+        background: linear-gradient(145deg, #FFAB91, #FF8A65); /* Dégradé orange pastel */
+        border-radius: 8px;
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15), -4px -4px 10px #FFE0B2;
+        transition: all 0.3s ease;
+        display: inline-block;
+        border: 1px solid #FF8A65; /* Bordure subtile pour effet de relief */
+    }
+
+    /* Effet de survol pour les liens */
+    a:hover {
+        background: linear-gradient(145deg, #FF7043, #D84315); /* Dégradé plus foncé au survol */
+        color: #FFF3E0;
+        box-shadow: 8px 8px 15px rgba(0, 0, 0, 0.3), -8px -8px 15px #FFE0B2; /* Ombre plus intense */
+        transform: translateY(-3px); /* Légère élévation */
+    }
+
+    /* Effet de clic pour les liens */
+    a:active {
+        transform: translateY(1px); /* Effet de pression */
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2), -2px -2px 5px #FFE0B2;
+    }
+
+    /* Style responsive pour les écrans mobiles */
+    @media (max-width: 600px) {
+        .container {
+            width: 90%; /* Réduit la largeur sur les petits écrans */
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 24px; /* Ajuste la taille du texte pour les petits écrans */
+        }
+
+        p, a {
+            font-size: 16px; /* Ajuste la taille du texte pour le mobile */
+        }
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <h1>Bienvenue sur l'application de gestion de films et réalisateurs</h1> <!-- Titre de bienvenue avec un style dégradé -->
+
+  <p>Utilisez les liens ci-dessous pour naviguer :</p> <!-- Message d'instructions -->
+
+  <ul>
+    <!-- Liens vers les pages des films et réalisateurs -->
+    <li><a th:href="@{/films}">Voir la liste des films</a></li>
+    <li><a th:href="@{/realisateurs}">Voir la liste des réalisateurs</a></li>
+  </ul>
+</div>
+</body>
+</html>

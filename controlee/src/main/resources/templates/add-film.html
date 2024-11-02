@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<meta charset="UTF-8"> <!-- Définit l'encodage en UTF-8 pour supporter les caractères spéciaux -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Modifier un Réalisateur</title>
+    <style>
+        /* Styles pour le corps de la page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F3E5F5; /* Couleur de fond violet pastel clair */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Styles du conteneur central */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre légère pour effet de profondeur */
+        }
+
+        /* Styles du titre principal */
+        h1 {
+            text-align: center;
+            color: #7E57C2; /* Couleur violet pastel */
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        /* Styles des labels */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #5C6BC0; /* Couleur bleu pastel */
+            font-weight: bold;
+        }
+
+        /* Styles des champs de texte et zone de texte */
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            background-color: #EDE7F6; /* Fond violet pastel clair */
+        }
+
+        /* Styles pour les champs de texte en focus */
+        input[type="text"]:focus, textarea:focus {
+            border-color: #B39DDB; /* Couleur de bordure violet pastel */
+            outline: none;
+            box-shadow: 0 0 5px rgba(179, 157, 219, 0.5); /* Ombre de focus */
+        }
+
+        /* Couleur de fond pour les champs de texte valides */
+        input[type="text"]:valid, textarea:valid {
+            background-color: #F3E5F5;
+        }
+
+        /* Styles pour l'indicateur de caractères */
+        .char-counter {
+            font-size: 0.85em;
+            color: #8E24AA; /* Violet indicateur */
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        /* Styles du bouton de soumission */
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #CE93D8; /* Rose pastel */
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        /* Effet de survol pour le bouton */
+        button:hover {
+            background-color: #BA68C8; /* Rose pastel foncé */
+        }
+    </style>
+
+    <!-- Script pour le compteur de caractères -->
+    <script>
+        function updateCharCounter() {
+            const textarea = document.getElementById("biographie");
+            const counter = document.getElementById("char-counter");
+            const maxLength = 500;
+            counter.textContent = `${textarea.value.length}/${maxLength} caractères`;
+        }
+    </script>
+</head>
+
+<body>
+<div class="container">
+    <h1>Ajouter un Film</h1>
+
+    <!-- Formulaire d'ajout de film, action dirigée vers "/films/add" en méthode POST -->
+    <form th:action="@{/films/add}" th:object="${film}" method="post">
+        <!-- Champ pour le titre du film -->
+        <label for="titre">Titre:</label>
+        <input type="text" id="titre" th:field="*{titre}" placeholder="Titre du film" required/>
+
+        <!-- Champ pour le genre du film -->
+        <label for="genre">Genre:</label>
+        <input type="text" id="genre" th:field="*{genre}" placeholder="Genre du film" required/>
+
+        <!-- Champ pour l'année de sortie du film, limité à 4 caractères -->
+        <label for="anneeSortie">Année de Sortie:</label>
+        <input type="text" id="anneeSortie" th:field="*{anneeSortie}" placeholder="Année de sortie" required maxlength="4"/>
+
+        <!-- Section pour les réalisateurs, champ supplémentaire ajouté dynamiquement -->
+        <label for="realisateurs">Réalisateurs:</label>
+        <div id="realisateursContainer">
+            <input type="text" name="realisateurNoms[]" placeholder="Nom du réalisateur" required />
+        </div>
+        <button type="button" onclick="ajouterRealisateur()">+ Ajouter un réalisateur</button>
+
+        <!-- Script pour ajouter dynamiquement un champ de réalisateur -->
+        <script>
+            function ajouterRealisateur() {
+                const container = document.getElementById("realisateursContainer");
+                const input = document.createElement("input");
+                input.type = "text";
+                input.name = "realisateurNoms[]"; // Nom de tableau pour gérer plusieurs réalisateurs
+                input.placeholder = "Nom du réalisateur";
+                input.required = false; // Champs ajoutés ne sont pas obligatoires
+                container.appendChild(input);
+            }
+        </script>
+
+        <!-- Bouton pour soumettre le formulaire -->
+        <button type="submit">Ajouter le Film</button>
+    </form>
+</div>
+</body>
+</html>

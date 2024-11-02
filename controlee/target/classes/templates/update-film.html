@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<meta charset="UTF-8"> <!-- Définit l'encodage en UTF-8 pour supporter les caractères spéciaux -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Modifier un Film</title>
+  <style>
+    /* Style global */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #E8F5E9; /* Vert pastel clair pour l'arrière-plan */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    /* Conteneur principal */
+    .container {
+        width: 100%;
+        max-width: 500px;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère pour effet de profondeur */
+    }
+
+    /* Titre de la page */
+    h1 {
+        text-align: center;
+        color: #4CAF50; /* Vert pour le titre */
+    }
+
+    /* Style pour les labels */
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333; /* Gris foncé */
+    }
+
+    /* Style pour les champs de texte et les listes déroulantes */
+    input, select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    /* Section pour chaque réalisateur existant */
+    .realisateur-field {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .realisateur-field input[type="text"] {
+        flex-grow: 1; /* Étend le champ texte pour occuper tout l'espace disponible */
+    }
+    .realisateur-field button {
+        margin-left: 10px;
+        background-color: #f44336; /* Rouge pour le bouton Supprimer */
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    /* Style pour le bouton principal de soumission */
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #A5D6A7; /* Vert pastel */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #81C784; /* Vert plus foncé au survol */
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <h1>Modifier un Film</h1>
+
+  <!-- Formulaire pour modifier un film -->
+  <form th:action="@{/films/update/{id}(id=${film.id})}" th:object="${film}" method="post">
+
+    <!-- Champ pour le titre du film -->
+    <label for="titre">Titre:</label>
+    <input type="text" id="titre" th:field="*{titre}" placeholder="Titre du film" required/>
+
+    <!-- Champ pour le genre du film -->
+    <label for="genre">Genre:</label>
+    <input type="text" id="genre" th:field="*{genre}" placeholder="Genre du film" required/>
+
+    <!-- Champ pour l'année de sortie du film -->
+    <label for="anneeSortie">Année de Sortie:</label>
+    <input type="text" id="anneeSortie" th:field="*{anneeSortie}" placeholder="ex: 2000" required maxlength="4"/>
+
+    <!-- Section pour modifier les réalisateurs existants -->
+    <label>Réalisateurs existants:</label>
+    <div th:each="realisateur, iterStat : ${film.realisateurs}" class="realisateur-field">
+      <input type="text" name="realisateurNoms" th:value="${realisateur.nom}" placeholder="Nom du réalisateur" required />
+      <input type="hidden" name="realisateurIds" th:value="${realisateur.id}" />
+      <!-- Bouton pour supprimer un réalisateur existant de la liste -->
+      <button type="button" onclick="supprimerRealisateur(this)">Supprimer</button>
+    </div>
+
+    <!-- Section pour ajouter un nouveau réalisateur -->
+    <label>Ajouter un nouveau réalisateur:</label>
+    <div id="nouveauxRealisateursContainer" class="realisateur-field">
+      <input type="text" name="nouveauxRealisateurs" placeholder="Nom du réalisateur" />
+    </div>
+    <!-- Bouton pour ajouter dynamiquement un autre réalisateur -->
+    <button type="button" onclick="ajouterRealisateur()">+ Ajouter un autre réalisateur</button>
+
+    <!-- Bouton principal pour soumettre le formulaire -->
+    <button type="submit">Enregistrer les modifications</button>
+  </form>
+</div>
+
+<!-- JavaScript pour gérer l'ajout et la suppression dynamique de réalisateurs -->
+<script>
+  function ajouterRealisateur() {
+      const container = document.getElementById("nouveauxRealisateursContainer");
+      const input = document.createElement("input");
+      input.type = "text";
+      input.name = "nouveauxRealisateurs";
+      input.placeholder = "Nom du réalisateur";
+      input.classList.add("realisateur-input"); // Ajoute une classe pour un éventuel style
+      container.appendChild(input); // Ajoute le nouveau champ au conteneur
+  }
+
+  function supprimerRealisateur(button) {
+      const field = button.closest('.realisateur-field');
+      field.remove(); // Supprime la section du réalisateur sélectionné
+  }
+</script>
+
+</body>
+</html>

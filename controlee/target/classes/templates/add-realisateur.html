@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<meta charset="UTF-8"> <!-- Définit l'encodage en UTF-8 pour supporter les caractères spéciaux -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Ajouter un Réalisateur</title>
+  <style>
+    /* Styles généraux de la page */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #E1F5FE; /* Bleu pastel clair */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    /* Conteneur du formulaire centré */
+    .form-container {
+        width: 100%;
+        max-width: 400px;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Légère ombre */
+    }
+
+    /* Style du titre */
+    h1 {
+        text-align: center;
+        color: #42A5F5; /* Bleu */
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    /* Style pour les labels */
+    label {
+        color: #0288D1; /* Bleu foncé */
+        font-weight: bold;
+        margin-top: 10px;
+        display: block;
+    }
+
+    /* Style pour les champs de texte et la zone de texte */
+    input[type="text"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        background-color: #E3F2FD; /* Bleu clair */
+        transition: border-color 0.3s ease, background-color 0.3s ease;
+    }
+
+    /* Effet de focus pour les champs de texte */
+    input[type="text"]:focus,
+    textarea:focus {
+        border-color: #29B6F6; /* Bleu plus vif en focus */
+        outline: none;
+        box-shadow: 0 0 5px rgba(41, 182, 246, 0.6);
+    }
+
+    /* Style pour l'indicateur de caractères */
+    .char-counter {
+        font-size: 0.9em;
+        color: #888; /* Gris clair */
+        text-align: right;
+        margin-top: -8px;
+        margin-bottom: 10px;
+    }
+
+    /* Couleur de fond pour les champs valides */
+    input[type="text"]:valid,
+    textarea:valid {
+        background-color: #E1F5FE;
+    }
+
+    /* Style pour le bouton */
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #80DEEA; /* Bleu clair */
+        border: none;
+        border-radius: 4px;
+        color: #006064; /* Texte bleu foncé */
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Effet de survol pour le bouton */
+    button:hover {
+        background-color: #4DD0E1; /* Bleu plus foncé */
+    }
+  </style>
+
+  <!-- Script pour afficher le compteur de caractères pour le champ biographie -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const biographieInput = document.getElementById("biographie");
+        const charCounter = biographieInput.nextElementSibling;
+
+        // Met à jour le compteur de caractères lors de la saisie
+        biographieInput.addEventListener("input", function() {
+            const maxLength = 500;
+            const currentLength = biographieInput.value.length;
+            charCounter.textContent = `${currentLength} / ${maxLength}`;
+        });
+    });
+  </script>
+</head>
+
+<body>
+<div class="form-container">
+  <h1>Ajouter un Réalisateur</h1>
+
+  <!-- Formulaire d'ajout de réalisateur avec action dirigée vers /realisateurs/add en méthode POST -->
+  <form th:action="@{/realisateurs/add}" th:object="${realisateur}" method="post">
+
+    <!-- Champ pour le nom du réalisateur -->
+    <label for="nom">Nom:</label>
+    <input type="text" id="nom" th:field="*{nom}" placeholder="Nom complet du réalisateur" required maxlength="255"/>
+    <div class="char-counter" th:text="'0 / ' + ${50}">0 / 50</div> <!-- Indicateur pour le nombre de caractères -->
+
+    <!-- Champ pour la biographie -->
+    <label for="biographie">Biographie:</label>
+    <textarea id="biographie" th:field="*{biographie}" placeholder="Résumé de la biographie (max 500 caractères)" required maxlength="500"></textarea>
+    <div class="char-counter" th:text="'0 / ' + ${500}">0 / 500</div> <!-- Indicateur pour le nombre de caractères -->
+
+    <!-- Bouton pour soumettre le formulaire -->
+    <button type="submit">Ajouter</button>
+  </form>
+</div>
+</body>
+</html>
